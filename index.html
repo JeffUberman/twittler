@@ -1,27 +1,116 @@
+
 <!DOCTYPE html>
-<html>
-  <head>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Twittler | Built by Jeff</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Twittler</a>
+            </div>
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-12 text-center headline">
+                <h1>Your Twitter Feed</h1>
+                <p class="lead">Click on any tweet to view more from that user!</p>
+            </div>
+        </div>
+        <!-- /.row -->
+            <!-- <div class="row">
+                <div class="col-lg-6 col-lg-offset-3 text-center fake-button">Press Me
+                </div>
+            </div> -->
+        <!-- /.row -->
+            <div class="row">
+                    <div class="col-lg-6 col-lg-offset-3">
+                        <ul class="list-unstyled tweet-feed">
+                        </ul>
+                    </div>        
+            </div>
+        <!-- /.row -->
+
+    </div>
+    <!-- /.container -->
+    
+    <!-- JS Script Files -->
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
-  </head>
-  <body>
-    <script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+                var savedIndex;
+                var $body = $('.tweet-feed');
+                var index = streams.home.length - 1;
+                savedIndex = index;
 
-      $(document).ready(function(){
-        var $body = $('body');
-        $body.html('');
+                //check for new tweets
+                var checkNewTweets = function(){
+                  setInterval(function(){
+                    for(var i = savedIndex + 1; i < streams.home.length - 1; i++){
+                      prependTweets(i);
+                    }
+                    savedIndex = streams.home.length - 1;
+                    //sort tweets by tweet.user
+                    $('li').on('click', function(){
+                      var clickedClass = $(this).attr("class");
+                      $('li').filter(':not(.'+clickedClass+')').toggle();
+                    });
+                  }, 5000);
+                };
 
-        var index = streams.home.length - 1;
-        while(index >= 0){
-          var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message);
-          $tweet.appendTo($body);
-          index -= 1;
-        }
+                //prepend new tweets
+                var prependTweets = function(index){
+                  var tweet = streams.home[index];
+                  var $tweet = $('<li></li>').html('@' + tweet.user + ': ' + tweet.message + " <br><span class='timestamp'>Posted on: " +tweet.created_at + '</span>');
+                  $tweet.addClass(tweet.user);
+                  $tweet.prependTo($body);
+                };        
 
-      });
+                //initial tweets on page load
+                while(index >= 0){
+                  prependTweets(index);
+                  index -= 1;
+                }
 
+                //check for new tweets (potentially add button here)
+                checkNewTweets();
+                
+
+              });
     </script>
-  </body>
+
+</body>
+
 </html>

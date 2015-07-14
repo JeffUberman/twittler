@@ -1,0 +1,27 @@
+.headline {
+	padding-top: 50px;
+}
+body {
+	background-image: url("background.jpeg");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+li{
+	border: 1px solid;
+	border-radius: 4px;
+	background: white;
+	margin: 4px;
+}
+.fake-button{
+	background-color: gray;
+}
+.timestamp{
+	font-size: 8px;
+}
+.show {
+	display: block;
+}
+.hide {
+	display: none;
+}

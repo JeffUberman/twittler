@@ -1,6 +1,9 @@
 .headline {
 	padding-top: 50px;
 }
+.sub-headline {
+	padding-top: 75px;
+}
 body {
 	background-image: url("background.jpeg");
 	background-size: cover;
@@ -12,6 +15,7 @@ li{
 	border-radius: 4px;
 	background: white;
 	margin: 4px;
+	padding: 2px;
 }
 .fake-button{
 	background-color: gray;
